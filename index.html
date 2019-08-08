@@ -22,6 +22,14 @@ canvas {
 </body>
 
 <script>
+var debug = false
+
+function log(msg) {
+  if (debug) { 
+    document.querySelector('#log').innerHTML=msg
+  }
+}
+
 var race_state = {}
 var imgs = {}
 
@@ -74,15 +82,13 @@ function update(dt) {
     race_state.y += race_state.dy * dt
   }
 
-  //document.querySelector('#log').innerHTML='<p>x:' + race_state.x +'<p>y:' + race_state.y + '<p>dx:' + race_state.dx+ '<p>dy:' + race_state.dy
+  log('<p>x:' + race_state.x +'<p>y:' + race_state.y + '<p>dx:' + race_state.dx+ '<p>dy:' + race_state.dy)
 } 
 
 var lastTime = Date.now();
 function main() {
     var now = Date.now();
     var dt = (now - lastTime) / 1000.0;
-
-    document.querySelector('#log').innerHTML=dt
 
     update(dt);
     render();
