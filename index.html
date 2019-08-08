@@ -18,6 +18,7 @@ canvas {
 
 </head>
 <body>
+<div id=log></div>
 </body>
 
 <script>
@@ -26,15 +27,19 @@ canvas {
 var race_state = {}
 var imgs = {}
 
-function is_track_pathable(x, y) {
-  let track = imgs[race_state.track]
+function get_track_top(x) {
+  let track = race_state.track
 
-  var canvas = document.createElement('canvas');
-  canvas.width = track.width;
-  canvas.height = track.height;
-  canvas.getContext('2d').drawImage(track, 0, 0, track.width, track.height);
+  var canvas = document.createElement('canvas')
+  canvas.width = track.width
+  canvas.height = track.height
+  canvas.getContext('2d').drawImage(track, 0, 0, track.width, track.height)
 
-  return !!canvas.getContext('2d').getImageData(x, y, 1, 1).data[0];
+  for (var y=0; y<240; y++) {
+    if (!canvas.getContext('2d').getImageData(x, y, 1, 1).data[0]) return y
+  }
+
+  return 300
 }
 
 async function load_img(filename) {
@@ -50,13 +55,24 @@ async function load_img(filename) {
 }
 
 function update(dt) {
-  race_state.x = race_state.x + 200 * dt
+  race_state.x = (race_state.x + 200 * dt) % 2000
 
-  for (var y=0; y<240; y++) {
-    if (!is_track_pathable(race_state.x,y)) break;
+  let car_height = 32
+  let car_width = 64
+  let xfuzz = car_width / 4
+
+  race_state.dy += 3
+  race_state.y += race_state.dy * dt
+
+  floor = Math.min(get_track_top(race_state.x + xfuzz) - car_height,
+                   get_track_top(race_state.x + car_width - xfuzz) - car_height)
+
+  if (race_state.y > floor) {
+    race_state.dy = 50 * (floor - race_state.y)
+    race_state.y = floor
   }
 
-  race_state.y = y
+  document.querySelector('#log').innerHTML='<p>x:' + race_state.x +'<p>y:' + race_state.y +'<p>dy:' + race_state.dy
 } 
 
 var lastTime = Date.now();
@@ -80,22 +96,28 @@ async function init() {
   document.body.appendChild(canvas)
 
   race_state.x = 0
-  race_state.track = 'assets/tracks/1.png'
+  race_state.y = 0
+  race_state.dy = 0
+  race_state.track = await load_img('assets/tracks/1.png')
 
-  await load_img(race_state.track)
 
   main()
 }
 
 function render() {
-  const canvas = document.querySelector('canvas');
-  const ctx = canvas.getContext('2d');
-
-  let track = imgs['assets/tracks/1.png']
+  const canvas = document.querySelector('canvas')
+  const ctx = canvas.getContext('2d')
   
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
-  ctx.drawImage(track, -race_state.x, 0)
+  ctx.save()
+  ctx.translate(50 - race_state.x,0)
+
+  ctx.drawImage(race_state.track, 0, 0)
+
+  ctx.fillStyle = '#00f'
+  ctx.fillRect(race_state.x,race_state.y,64,32)
+  ctx.restore()
 }
 
 init()
