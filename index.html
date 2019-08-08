@@ -109,6 +109,7 @@ async function init() {
   race_state.dx = 200
   race_state.dy = 0
   race_state.track = await load_img('assets/tracks/1.png')
+  race_state.car = await load_img('assets/cars/1.png')
 
 
   main()
@@ -126,7 +127,7 @@ function render() {
   ctx.drawImage(race_state.track, 0, 0)
 
   ctx.fillStyle = '#aaa'
-  ctx.fillRect(race_state.x,race_state.y,64,32)
+  ctx.drawImage(race_state.car, race_state.x, race_state.y)
   ctx.restore()
 }
 
