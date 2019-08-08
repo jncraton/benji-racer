@@ -9,10 +9,11 @@
 body {
   margin:0 auto;
   padding:0;
-  width:640px;
+  max-width:640px;
 }
 canvas {
   border:1px solid #ccc;
+  width:100%;
 }
 </style>
 
@@ -61,6 +62,7 @@ function update(dt) {
   race_state.dx = Math.min(500, race_state.dx)
   race_state.x = race_state.x + race_state.dx * dt
   race_state.dx -= 30 * dt
+  race_state.dx = Math.max(0, race_state.dx)
 
   let car_height = 32
   let car_width = 64
