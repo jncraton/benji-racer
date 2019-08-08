@@ -26,15 +26,8 @@ var race_state = {}
 var imgs = {}
 
 function get_track_top(x) {
-  let track = race_state.track
-
-  var canvas = document.createElement('canvas')
-  canvas.width = track.width
-  canvas.height = track.height
-  canvas.getContext('2d').drawImage(track, 0, 0, track.width, track.height)
-
   for (var y=0; y<240; y++) {
-    if (!canvas.getContext('2d').getImageData(x, y, 1, 1).data[0]) return y
+    if (!race_state.track_canvas.getContext('2d').getImageData(x, y, 1, 1).data[0]) return y
   }
 
   return 300
@@ -79,13 +72,15 @@ function update(dt) {
     race_state.y += race_state.dy * dt
   }
 
-  document.querySelector('#log').innerHTML='<p>x:' + race_state.x +'<p>y:' + race_state.y + '<p>dx:' + race_state.dx+ '<p>dy:' + race_state.dy
+  //document.querySelector('#log').innerHTML='<p>x:' + race_state.x +'<p>y:' + race_state.y + '<p>dx:' + race_state.dx+ '<p>dy:' + race_state.dy
 } 
 
 var lastTime = Date.now();
 function main() {
     var now = Date.now();
     var dt = (now - lastTime) / 1000.0;
+
+    document.querySelector('#log').innerHTML=dt
 
     update(dt);
     render();
@@ -109,6 +104,10 @@ async function init() {
   race_state.track = await load_img('assets/tracks/1.png')
   race_state.car = await load_img('assets/cars/2.png')
 
+  race_state.track_canvas = document.createElement('canvas')
+  race_state.track_canvas.width = race_state.track.width
+  race_state.track_canvas.height = race_state.track.height
+  race_state.track_canvas.getContext('2d').drawImage(race_state.track, 0, 0, race_state.track.width, race_state.track.height)
 
   main()
 }
