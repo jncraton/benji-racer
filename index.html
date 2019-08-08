@@ -24,37 +24,48 @@ canvas {
 //https://jlongster.com/Making-Sprite-based-Games-with-Canvas
 
 var race_state = {}
+var imgs = {}
 
-async function get_img(filename) {
-  get_img.cache = {}
+function is_track_pathable(x, y) {
+  let track = imgs[race_state.track]
 
-  if (get_img.cache[filename]) {
-    return get_img.cache[filename]
-  }
+  var canvas = document.createElement('canvas');
+  canvas.width = track.width;
+  canvas.height = track.height;
+  canvas.getContext('2d').drawImage(track, 0, 0, track.width, track.height);
 
+  return !!canvas.getContext('2d').getImageData(x, y, 1, 1).data[0];
+}
+
+async function load_img(filename) {
   return new Promise(resolve => {
     var img = new Image()
     img.onload = function() {
-        get_img.cache[filename] = img
+        imgs[filename] = img
+        console.log(filename + ' loaded')
         resolve(img)
     }
     img.src = filename
   });
 }
-get_img.cache = {}
 
 function update(dt) {
   race_state.x = race_state.x + 200 * dt
-  console.log(dt, race_state.x)
+
+  for (var y=0; y<240; y++) {
+    if (!is_track_pathable(race_state.x,y)) break;
+  }
+
+  race_state.y = y
 } 
 
 var lastTime = Date.now();
-async function main() {
+function main() {
     var now = Date.now();
     var dt = (now - lastTime) / 1000.0;
 
     update(dt);
-    await render();
+    render();
 
     lastTime = now;
     requestAnimationFrame(main);
@@ -69,15 +80,18 @@ async function init() {
   document.body.appendChild(canvas)
 
   race_state.x = 0
+  race_state.track = 'assets/tracks/1.png'
+
+  await load_img(race_state.track)
 
   main()
 }
 
-async function render() {
+function render() {
   const canvas = document.querySelector('canvas');
   const ctx = canvas.getContext('2d');
 
-  let track = await get_img('assets/tracks/1.png')
+  let track = imgs['assets/tracks/1.png']
   
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
