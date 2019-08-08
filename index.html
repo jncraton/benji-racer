@@ -57,6 +57,7 @@ async function load_img(filename) {
 
 function update(dt) {
   race_state.x = race_state.x + race_state.dx * dt
+  race_state.dx -= 10 * dt
 
   if (race_state.x > 2000) {
     race_state.x = 0
@@ -74,11 +75,9 @@ function update(dt) {
 
   if (race_state.y > floor) {
     race_state.dy = 50 * (floor - race_state.y) * dt
-    race_state.dx += 50 * (floor - race_state.y) * dt
     race_state.y = floor
   } else {
     race_state.dy += 200 * dt
-    race_state.dx += 50 * dt
     race_state.y += race_state.dy * dt
   }
 
