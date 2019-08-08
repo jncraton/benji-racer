@@ -58,8 +58,9 @@ async function load_img(filename) {
 }
 
 function update(dt) {
+  race_state.dx = Math.min(500, race_state.dx)
   race_state.x = race_state.x + race_state.dx * dt
-  race_state.dx -= 10 * dt
+  race_state.dx -= 30 * dt
 
   let car_height = 32
   let car_width = 64
