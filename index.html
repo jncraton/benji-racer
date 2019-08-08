@@ -44,16 +44,17 @@ async function get_img(filename) {
 get_img.cache = {}
 
 function update(dt) {
-  race_state.x = race_state.x + 1
+  race_state.x = race_state.x + 200 * dt
+  console.log(dt, race_state.x)
 } 
 
-var lastTime;
-function main() {
+var lastTime = Date.now();
+async function main() {
     var now = Date.now();
     var dt = (now - lastTime) / 1000.0;
 
     update(dt);
-    render();
+    await render();
 
     lastTime = now;
     requestAnimationFrame(main);
@@ -76,9 +77,11 @@ async function render() {
   const canvas = document.querySelector('canvas');
   const ctx = canvas.getContext('2d');
 
-  //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+  let track = await get_img('assets/tracks/1.png')
+  
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
-  ctx.drawImage(await get_img('assets/tracks/1.png'), -race_state.x, 0)
+  ctx.drawImage(track, -race_state.x, 0)
 }
 
 init()
