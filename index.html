@@ -18,6 +18,8 @@ canvas {
 
 </head>
 <body>
+<img src="assets/cars/2.png">
+<img src="assets/cars/3.png">
 <div id=log></div>
 </body>
 
@@ -106,7 +108,7 @@ async function init() {
   race_state.dx = 200
   race_state.dy = 0
   race_state.track = await load_img('assets/tracks/1.png')
-  race_state.car = await load_img('assets/cars/2.png')
+  race_state.car = await load_img('assets/cars/3.png')
 
   race_state.track_canvas = document.createElement('canvas')
   race_state.track_canvas.width = race_state.track.width
@@ -119,7 +121,16 @@ async function init() {
 
   document.querySelector('body').addEventListener('click', press)
   document.querySelector('body').addEventListener('touchstart', press)
-    
+
+  async function change_car(e) {
+    race_state.car = await load_img(e.target.src)
+  }
+
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('click', change_car)
+    img.addEventListener('touchstart', change_car)
+  })
+
   main()
 }
 
