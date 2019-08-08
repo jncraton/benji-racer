@@ -26,8 +26,10 @@ var race_state = {}
 var imgs = {}
 
 function get_track_top(x) {
+  col = race_state.track_canvas.getContext('2d').getImageData(x, 1, 1, 240).data
+
   for (var y=0; y<240; y++) {
-    if (!race_state.track_canvas.getContext('2d').getImageData(x, y, 1, 1).data[0]) return y
+    if (!col[y*4]) return y
   }
 
   return 300
