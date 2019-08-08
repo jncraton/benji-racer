@@ -40,7 +40,7 @@ var race_state = {}
 var imgs = {}
 
 function get_track_top(x) {
-  x = x % 2000
+  x = x % race_state.track.width
 
   col = race_state.track_canvas.getContext('2d').getImageData(x, 1, 1, 240).data
 
@@ -147,10 +147,10 @@ function render() {
   ctx.save()
   ctx.translate(50 - race_state.x,0)
 
-  let screen = Math.floor(race_state.x / 2000)
+  let screen = Math.floor(race_state.x / race_state.track.width)
 
-  ctx.drawImage(race_state.track, screen*2000, 0)
-  ctx.drawImage(race_state.track, (screen+1)*2000, 0)
+  ctx.drawImage(race_state.track, screen*race_state.track.width, 0)
+  ctx.drawImage(race_state.track, (screen+1)*race_state.track.width, 0)
 
   ctx.fillStyle = '#aaa'
   ctx.drawImage(race_state.car, race_state.x, race_state.y)
