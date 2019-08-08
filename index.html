@@ -55,24 +55,33 @@ async function load_img(filename) {
 }
 
 function update(dt) {
-  race_state.x = (race_state.x + 200 * dt) % 2000
+  race_state.x = race_state.x + race_state.dx * dt
+
+  if (race_state.x > 2000) {
+    race_state.x = 0
+    race_state.y = 0
+    race_state.dx = 200
+    race_state.dy = 0
+  }
 
   let car_height = 32
   let car_width = 64
   let xfuzz = car_width / 4
 
-  race_state.dy += 3
-  race_state.y += race_state.dy * dt
-
   floor = Math.min(get_track_top(race_state.x + xfuzz) - car_height,
                    get_track_top(race_state.x + car_width - xfuzz) - car_height)
 
   if (race_state.y > floor) {
-    race_state.dy = 50 * (floor - race_state.y)
+    race_state.dy = 50 * (floor - race_state.y) * dt
+    race_state.dx += 50 * (floor - race_state.y) * dt
     race_state.y = floor
+  } else {
+    race_state.dy += 200 * dt
+    race_state.dx += 50 * dt
+    race_state.y += race_state.dy * dt
   }
 
-  document.querySelector('#log').innerHTML='<p>x:' + race_state.x +'<p>y:' + race_state.y +'<p>dy:' + race_state.dy
+  document.querySelector('#log').innerHTML='<p>x:' + race_state.x +'<p>y:' + race_state.y + '<p>dx:' + race_state.dx+ '<p>dy:' + race_state.dy
 } 
 
 var lastTime = Date.now();
@@ -97,6 +106,7 @@ async function init() {
 
   race_state.x = 0
   race_state.y = 0
+  race_state.dx = 200
   race_state.dy = 0
   race_state.track = await load_img('assets/tracks/1.png')
 
@@ -115,7 +125,7 @@ function render() {
 
   ctx.drawImage(race_state.track, 0, 0)
 
-  ctx.fillStyle = '#00f'
+  ctx.fillStyle = '#aaa'
   ctx.fillRect(race_state.x,race_state.y,64,32)
   ctx.restore()
 }
