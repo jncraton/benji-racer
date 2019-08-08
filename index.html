@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benji Racer</title>
+
+<style>
+body {
+  margin:0 auto;
+  padding:0;
+  width:640px;
+}
+canvas {
+  border:1px solid #ccc;
+}
+</style>
+
+</head>
+<body>
+</body>
+
+<script>
+//https://jlongster.com/Making-Sprite-based-Games-with-Canvas
+
+var race_state = {}
+
+async function get_img(filename) {
+  get_img.cache = {}
+
+  if (get_img.cache[filename]) {
+    return get_img.cache[filename]
+  }
+
+  return new Promise(resolve => {
+    var img = new Image()
+    img.onload = function() {
+        get_img.cache[filename] = img
+        resolve(img)
+    }
+    img.src = filename
+  });
+}
+get_img.cache = {}
+
+function update(dt) {
+  race_state.x = race_state.x + 1
+} 
+
+var lastTime;
+function main() {
+    var now = Date.now();
+    var dt = (now - lastTime) / 1000.0;
+
+    update(dt);
+    render();
+
+    lastTime = now;
+    requestAnimationFrame(main);
+};
+
+async function init() {
+  const canvas = document.createElement("canvas")
+  const ctx = canvas.getContext("2d")
+  canvas.width = 640
+  canvas.height = 480
+  ctx.scale(2,2)
+  document.body.appendChild(canvas)
+
+  race_state.x = 0
+
+  main()
+}
+
+async function render() {
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+
+  //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+
+  ctx.drawImage(await get_img('assets/tracks/1.png'), -race_state.x, 0)
+}
+
+init()
+
+</script>
+
+</html>
