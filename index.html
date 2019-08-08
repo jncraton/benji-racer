@@ -17,13 +17,27 @@ canvas {
 img {
   height:64px;
 }
+
+#race {
+  display:none;
+}
 </style>
 
 </head>
 <body>
+<section id="start">
 <img src="assets/cars/2.png">
 <img src="assets/cars/3.png">
 <img src="assets/cars/4.png">
+
+<button id="start">Start</button>
+</section>
+
+<section id="race">
+<canvas></canvas>
+</section>
+
+
 <div id=log></div>
 </body>
 
@@ -100,12 +114,11 @@ function main() {
 };
 
 async function init() {
-  const canvas = document.createElement("canvas")
+  const canvas = document.querySelector('canvas')
   const ctx = canvas.getContext("2d")
   canvas.width = 640
   canvas.height = 480
   ctx.scale(2,2)
-  document.body.appendChild(canvas)
 
   race_state.x = 0
   race_state.y = 0
@@ -135,6 +148,14 @@ async function init() {
     img.addEventListener('touchstart', change_car)
   })
 
+  function start() {
+    document.querySelector('section#race').style.display = 'block'
+    document.querySelector('section#start').style.display = 'none'
+  }
+
+  document.querySelector('button#start').addEventListener('click', start)
+  document.querySelector('button#start').addEventListener('touchstart', start)
+
   main()
 }
 
@@ -148,9 +169,9 @@ function render() {
   ctx.translate(50 - race_state.x,0)
 
   let screen = Math.floor(race_state.x / race_state.track.width)
+  ctx.drawImage(race_state.track, (screen+1)*race_state.track.width, 0)
 
   ctx.drawImage(race_state.track, screen*race_state.track.width, 0)
-  ctx.drawImage(race_state.track, (screen+1)*race_state.track.width, 0)
 
   ctx.fillStyle = '#aaa'
   ctx.drawImage(race_state.car, race_state.x, race_state.y)
