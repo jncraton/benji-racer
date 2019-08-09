@@ -193,16 +193,6 @@ async function init() {
     e.target.classList.add('selected')
   })
 
-  addTouchEvents('button[name=start]', () => {
-    document.querySelector('section#race').style.display = 'block'
-    document.querySelector('section#start').style.display = 'none'
-
-    race_state.x = 0
-    race_state.y = 0
-    race_state.dx = 200
-    race_state.dy = 0
-  })
-
   function reset() {
     document.querySelector('section#race').style.display = 'none'
     document.querySelector('section#start').style.display = 'block'
@@ -212,6 +202,13 @@ async function init() {
     race_state.dx = 200
     race_state.dy = 0
   }
+
+  addTouchEvents('button[name=start]', () => {
+    reset()
+  
+    document.querySelector('section#race').style.display = 'block'
+    document.querySelector('section#start').style.display = 'none'
+  })
 
   addTouchEvents('button[name=reset]', reset)
 
