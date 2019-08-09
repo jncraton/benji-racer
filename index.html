@@ -11,16 +11,24 @@ body {
   padding:0;
   max-width:960px;
 }
+* {
+  font-family:sans;
+  font-weight:200;
+  font-size:32px;
+}
+h1 {
+  font-size:48px;
+}
 div,section {
   text-align:center;
 }
 button,img {
-  font-size:48px;
+  font-size:32px;
   border:2px solid #777;
   color:#777;
   border-radius:7px;
   box-shadow:1px 1px 1px;
-  padding:5px;
+  padding:10px;
   margin:5px;
 }
 img.selected {
@@ -48,10 +56,17 @@ canvas {
 <body>
 <section id=start>
   <div>
+  <h2>Cars</h2>
   <img class=car src="assets/cars/2.png">
   <img class=car src="assets/cars/3.png">
   <img class=car src="assets/cars/4.png">
   <img class=car src="assets/cars/5.png">
+  </div>
+
+  <div>
+  <h2>Tracks</h2>
+  <img class=track src="assets/tracks/1.png">
+  <img class=track src="assets/tracks/2.png">
   </div>
   
 <div><button>Start</button></div>
@@ -80,7 +95,7 @@ var imgs = {}
 function get_track_top(x) {
   x = x % race_state.track.width
 
-  col = race_state.track_canvas.getContext('2d').getImageData(x, 1, 1, 240).data
+  col = race_state.track.canvas.getContext('2d').getImageData(x, 1, 1, 240).data
 
   for (var y=0; y<240; y++) {
     if (col[y*4] < 240 && col[y*4 + 1] < 240 && col[y*4 + 2] < 240) return y
@@ -95,6 +110,12 @@ async function load_img(filename) {
     img.onload = function() {
         imgs[filename] = img
         console.log(filename + ' loaded')
+
+        img.canvas = document.createElement('canvas')
+        img.canvas.width = img.width
+        img.canvas.height = img.height
+        img.canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height)
+
         resolve(img)
     }
     img.src = filename
@@ -149,12 +170,7 @@ async function init() {
   race_state.dx = 200
   race_state.dy = 0
   race_state.track = await load_img('assets/tracks/1.png')
-  race_state.car = await load_img('assets/cars/3.png')
-
-  race_state.track_canvas = document.createElement('canvas')
-  race_state.track_canvas.width = race_state.track.width
-  race_state.track_canvas.height = race_state.track.height
-  race_state.track_canvas.getContext('2d').drawImage(race_state.track, 0, 0, race_state.track.width, race_state.track.height)
+  race_state.car = await load_img('assets/cars/2.png')
 
   function press() {
     race_state.dx += 100
@@ -169,13 +185,26 @@ async function init() {
     document.querySelectorAll('.car').forEach(e => {
       e.classList.remove('selected')
     })
-
     e.target.classList.add('selected')
   }
 
-  document.querySelectorAll('img').forEach(img => {
+  document.querySelectorAll('img.car').forEach(img => {
     img.addEventListener('click', change_car)
     img.addEventListener('touchstart', change_car)
+  })
+
+  async function change_track(e) {
+    race_state.track = await load_img(e.target.src)
+
+    document.querySelectorAll('.track').forEach(e => {
+      e.classList.remove('selected')
+    })
+    e.target.classList.add('selected')
+  }
+
+  document.querySelectorAll('img.track').forEach(img => {
+    img.addEventListener('click', change_track)
+    img.addEventListener('touchstart', change_track)
   })
 
   function start() {
@@ -199,11 +228,10 @@ function render() {
   ctx.translate(50 - race_state.x,0)
 
   let screen = Math.floor(race_state.x / race_state.track.width)
-  ctx.drawImage(race_state.track, (screen+1)*race_state.track.width, 0)
 
+  ctx.drawImage(race_state.track, (screen+1)*race_state.track.width, 0)
   ctx.drawImage(race_state.track, screen*race_state.track.width, 0)
 
-  ctx.fillStyle = '#aaa'
   ctx.drawImage(race_state.car, race_state.x, race_state.y)
   ctx.restore()
 }
