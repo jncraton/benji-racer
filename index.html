@@ -15,6 +15,7 @@ body {
   font-family:sans;
   font-weight:200;
   font-size:32px;
+  color:#222;
 }
 h1 {
   font-size:48px;
@@ -25,9 +26,8 @@ div,section {
 button,img {
   font-size:32px;
   border:2px solid #777;
-  color:#777;
   border-radius:7px;
-  box-shadow:1px 1px 1px;
+  box-shadow:1px 1px 1px #777;
   padding:10px;
   margin:5px;
 }
@@ -39,7 +39,6 @@ button:hover,button:focus,img:hover,img:focus {
 }
 button {
   background-color:inherit;
-  color:green;
 }
 img {
   height:64px; 
@@ -70,10 +69,11 @@ canvas {
   <img class=track src="assets/tracks/2.png">
   </div>
   
-<div><button>Start</button></div>
+<div><button name=start>Start</button></div>
 </section>
 
 <section id="race">
+<div><button name=reset>New Race</button></div>
 <canvas></canvas>
 </section>
 
@@ -166,10 +166,6 @@ async function init() {
   canvas.height = 480
   ctx.scale(2,2)
 
-  race_state.x = 0
-  race_state.y = 0
-  race_state.dx = 200
-  race_state.dy = 0
   race_state.track = await load_img('assets/tracks/1.png')
   race_state.car = await load_img('assets/cars/2.png')
 
@@ -211,11 +207,30 @@ async function init() {
   function start() {
     document.querySelector('section#race').style.display = 'block'
     document.querySelector('section#start').style.display = 'none'
+
+    race_state.x = 0
+    race_state.y = 0
+    race_state.dx = 200
+    race_state.dy = 0
   }
 
-  document.querySelector('button').addEventListener('click', start)
-  document.querySelector('button').addEventListener('touchstart', start)
+  document.querySelector('button[name=start]').addEventListener('click', start)
+  document.querySelector('button[name=start]').addEventListener('touchstart', start)
 
+  function reset() {
+    document.querySelector('section#race').style.display = 'none'
+    document.querySelector('section#start').style.display = 'block'
+
+    race_state.x = 0
+    race_state.y = 0
+    race_state.dx = 200
+    race_state.dy = 0
+  }
+
+  document.querySelector('button[name=reset]').addEventListener('click', reset)
+  document.querySelector('button[name=reset]').addEventListener('touchstart', reset)
+
+  reset()
   main()
 }
 
