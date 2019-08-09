@@ -164,42 +164,36 @@ async function init() {
   race_state.track = await load_img('assets/tracks/1.png')
   race_state.car = await load_img('assets/cars/2.png')
 
-  function press() {
-    race_state.dx += 100
+  function addTouchEvents(selector, cb) {
+    document.querySelectorAll(selector).forEach(el => {
+      el.addEventListener('click', cb)
+      el.addEventListener('touchstart', cb)
+    })
   }
 
-  document.querySelector('body').addEventListener('click', press)
-  document.querySelector('body').addEventListener('touchstart', press)
+  addTouchEvents('body', () => { 
+    race_state.dx += 100
+  })
 
-  async function change_car(e) {
+  addTouchEvents('img.car', async (e) => {
     race_state.car = await load_img(e.target.src)
 
     document.querySelectorAll('.car').forEach(e => {
       e.classList.remove('selected')
     })
     e.target.classList.add('selected')
-  }
-
-  document.querySelectorAll('img.car').forEach(img => {
-    img.addEventListener('click', change_car)
-    img.addEventListener('touchstart', change_car)
   })
 
-  async function change_track(e) {
+  addTouchEvents('img.track', async (e) => {
     race_state.track = await load_img(e.target.src)
 
     document.querySelectorAll('.track').forEach(e => {
       e.classList.remove('selected')
     })
     e.target.classList.add('selected')
-  }
-
-  document.querySelectorAll('img.track').forEach(img => {
-    img.addEventListener('click', change_track)
-    img.addEventListener('touchstart', change_track)
   })
 
-  function start() {
+  addTouchEvents('button[name=start]', () => {
     document.querySelector('section#race').style.display = 'block'
     document.querySelector('section#start').style.display = 'none'
 
@@ -207,10 +201,7 @@ async function init() {
     race_state.y = 0
     race_state.dx = 200
     race_state.dy = 0
-  }
-
-  document.querySelector('button[name=start]').addEventListener('click', start)
-  document.querySelector('button[name=start]').addEventListener('touchstart', start)
+  })
 
   function reset() {
     document.querySelector('section#race').style.display = 'none'
@@ -222,8 +213,7 @@ async function init() {
     race_state.dy = 0
   }
 
-  document.querySelector('button[name=reset]').addEventListener('click', reset)
-  document.querySelector('button[name=reset]').addEventListener('touchstart', reset)
+  addTouchEvents('button[name=reset]', reset)
 
   reset()
   main()
