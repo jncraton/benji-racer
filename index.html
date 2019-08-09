@@ -59,7 +59,7 @@ function get_track_top(x) {
   col = race_state.track_canvas.getContext('2d').getImageData(x, 1, 1, 240).data
 
   for (var y=0; y<240; y++) {
-    if (col[y*4] < 25 && col[y*4 + 1] < 25 && col[y*4 + 2] < 25) return y
+    if (col[y*4] < 240 && col[y*4 + 1] < 240 && col[y*4 + 2] < 240) return y
   }
 
   return 300
@@ -124,7 +124,7 @@ async function init() {
   race_state.y = 0
   race_state.dx = 200
   race_state.dy = 0
-  race_state.track = await load_img('assets/tracks/1.png')
+  race_state.track = await load_img('assets/tracks/2.png')
   race_state.car = await load_img('assets/cars/3.png')
 
   race_state.track_canvas = document.createElement('canvas')
