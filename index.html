@@ -231,8 +231,6 @@ function render() {
   ctx.drawImage(race_state.track, (screen+1)*race_state.track.width, 0)
   ctx.drawImage(race_state.track, screen*race_state.track.width, 0)
 
-  ctx.drawImage(race_state.car, race_state.x, race_state.y)
-
   const coin_interval = 777
   let coins = Math.floor(race_state.x / coin_interval)
 
@@ -241,7 +239,10 @@ function render() {
   let next_coin_x = (coins + 1) * coin_interval
   let next_coin_y = get_track_top(next_coin_x) - 30
 
+  ctx.fillStyle = 'orange';
   ctx.fillRect(next_coin_x, next_coin_y, 20, 20)
+
+  ctx.drawImage(race_state.car, race_state.x, race_state.y)
 
   ctx.restore()
 }
