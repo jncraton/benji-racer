@@ -17,7 +17,6 @@ canvas {
 img {
   height:64px;
 }
-
 #race {
   display:none;
 }
@@ -25,13 +24,13 @@ img {
 
 </head>
 <body>
-<section id="start">
-<img src="assets/cars/2.png">
-<img src="assets/cars/3.png">
-<img src="assets/cars/4.png">
-<img src="assets/cars/5.png">
+<section id=start>
+<img class=car src="assets/cars/2.png">
+<img class=car src="assets/cars/3.png">
+<img class=car src="assets/cars/4.png">
+<img class=car src="assets/cars/5.png">
 
-<button id="start">Start</button>
+<button>Start</button>
 </section>
 
 <section id="race">
@@ -154,8 +153,8 @@ async function init() {
     document.querySelector('section#start').style.display = 'none'
   }
 
-  document.querySelector('button#start').addEventListener('click', start)
-  document.querySelector('button#start').addEventListener('touchstart', start)
+  document.querySelector('button').addEventListener('click', start)
+  document.querySelector('button').addEventListener('touchstart', start)
 
   main()
 }
