@@ -29,6 +29,7 @@ img {
 <img src="assets/cars/2.png">
 <img src="assets/cars/3.png">
 <img src="assets/cars/4.png">
+<img src="assets/cars/5.png">
 
 <button id="start">Start</button>
 </section>
@@ -124,7 +125,7 @@ async function init() {
   race_state.y = 0
   race_state.dx = 200
   race_state.dy = 0
-  race_state.track = await load_img('assets/tracks/2.png')
+  race_state.track = await load_img('assets/tracks/1.png')
   race_state.car = await load_img('assets/cars/3.png')
 
   race_state.track_canvas = document.createElement('canvas')
