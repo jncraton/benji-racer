@@ -86,19 +86,7 @@ canvas {
 <canvas></canvas>
 </section>
 
-
-<div id=log></div>
-</body>
-
 <script>
-var debug = false
-
-function log(msg) {
-  if (debug) { 
-    document.querySelector('#log').innerHTML=msg
-  }
-}
-
 var race_state = {}
 var imgs = {}
 
@@ -152,8 +140,6 @@ function update(dt) {
     race_state.dy += 200 * dt
     race_state.y += race_state.dy * dt
   }
-
-  log('<p>x:' + race_state.x +'<p>y:' + race_state.y + '<p>dx:' + race_state.dx+ '<p>dy:' + race_state.dy)
 } 
 
 var lastTime = Date.now();
