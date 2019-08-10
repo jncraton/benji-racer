@@ -47,6 +47,16 @@ canvas { width:100%; }
   <img class=car src="assets/cars/8.png">
   </div>
 
+  <h2>Opponent</h2>
+  <img class=opponent src="assets/cars/2.png">
+  <img class=opponent src="assets/cars/3.png">
+  <img class=opponent src="assets/cars/4.png">
+  <img class=opponent src="assets/cars/5.png">
+  <img class=opponent src="assets/cars/6.png">
+  <img class=opponent src="assets/cars/7.png">
+  <img class=opponent src="assets/cars/8.png">
+  </div>
+
   <div>
   <h2>Tracks</h2>
   <img class=track src="assets/tracks/1.png">
@@ -176,11 +186,10 @@ async function init() {
 
   addTouchEvents('img.car', select_race_property.bind(null, 'car'))
   addTouchEvents('img.track', select_race_property.bind(null, 'track'))
+  addTouchEvents('img.opponent', select_race_property.bind(null, 'opponent'))
 
   addTouchEvents('button[name=start]', set_race_active.bind(null, true))
   addTouchEvents('button[name=reset]', set_race_active.bind(null, false))
-
-  opponent = await load_img('assets/cars/1.png')
 }
 
 function render() {
