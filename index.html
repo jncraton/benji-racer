@@ -33,6 +33,9 @@ canvas { width:100%; }
 </style>
 
 <script>
+const num_cars = 11
+const num_tracks = 3
+
 function get_track_top(x) {
   x = x % track.width
 
@@ -189,19 +192,19 @@ function write_selectable_images(n, cls, path) {
   <h1><img src="assets/text/benji-racer.png" alt="Benji Racer"></h1>
   <div>
   <h2>Car</h2>
-  <script>write_selectable_images(11, 'car', 'cars')</script>
+  <script>write_selectable_images(num_cars, 'car', 'cars')</script>
   </div>
 
   <h2>Opponent</h2>
   <div>
-  <script>write_selectable_images(11, 'opponent', 'cars')</script>
+  <script>write_selectable_images(num_cars, 'opponent', 'cars')</script>
   </div>
   <div><input type="range" name="opponents" min=0 max=10 value=1></div>
   </div>
 
   <div>
   <h2>Track</h2>
-  <script>write_selectable_images(3, 'track', 'tracks')</script>
+  <script>write_selectable_images(num_tracks, 'track', 'tracks')</script>
   </div>
 
   <div>
