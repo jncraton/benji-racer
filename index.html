@@ -120,15 +120,13 @@ function update(dt) {
 
 function main() {
     var now = Date.now()
-    var dt = (now - main.lastTime) / 1000.0
+    var dt = Math.min(.1, (now - main.lastTime) / 1000.0)
 
-    if (race_state.running) {
-      update(dt)
-      render()
-    }
+    update(dt)
+    render()
 
     main.lastTime = now
-    requestAnimationFrame(main)
+    if (race_state.running) { requestAnimationFrame(main) }
 }
 main.lastTime = Date.now()
 
@@ -148,6 +146,8 @@ function set_race_active(state) {
 
   document.querySelector('section#race').style.display = state ? 'block' : 'none'
   document.querySelector('section#start').style.display = state ? 'none' : 'block'
+
+  if (race_state.running) { requestAnimationFrame(main) }
 }
 
 async function select_race_property(cls, e) {
@@ -170,8 +170,6 @@ async function init() {
 
   addTouchEvents('button[name=start]', set_race_active.bind(null, true))
   addTouchEvents('button[name=reset]', set_race_active.bind(null, false))
-
-  main()
 }
 
 function render() {
