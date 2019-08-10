@@ -148,12 +148,21 @@ function main() {
     var now = Date.now();
     var dt = (now - lastTime) / 1000.0;
 
-    update(dt);
-    render();
+    if (race_state.running) {
+      update(dt);
+      render();
+    }
 
     lastTime = now;
     requestAnimationFrame(main);
-};
+}
+
+function addTouchEvents(selector, cb) {
+  document.querySelectorAll(selector).forEach(el => {
+    el.addEventListener('click', cb)
+    el.addEventListener('touchstart', cb)
+  })
+}
 
 async function init() {
   const canvas = document.querySelector('canvas')
@@ -162,16 +171,6 @@ async function init() {
   canvas.height = 480
   ctx.scale(2,2)
 
-  race_state.track = await load_img('assets/tracks/1.png')
-  race_state.car = await load_img('assets/cars/2.png')
-
-  function addTouchEvents(selector, cb) {
-    document.querySelectorAll(selector).forEach(el => {
-      el.addEventListener('click', cb)
-      el.addEventListener('touchstart', cb)
-    })
-  }
-
   addTouchEvents('body', () => { 
     race_state.dx += 100
   })
@@ -179,41 +178,34 @@ async function init() {
   addTouchEvents('img.car', async (e) => {
     race_state.car = await load_img(e.target.src)
 
-    document.querySelectorAll('.car').forEach(e => {
-      e.classList.remove('selected')
-    })
+    document.querySelectorAll('.car').forEach(e => { e.classList.remove('selected') })
     e.target.classList.add('selected')
   })
 
   addTouchEvents('img.track', async (e) => {
     race_state.track = await load_img(e.target.src)
 
-    document.querySelectorAll('.track').forEach(e => {
-      e.classList.remove('selected')
-    })
+    document.querySelectorAll('.track').forEach(e => { e.classList.remove('selected') })
     e.target.classList.add('selected')
   })
 
-  function reset() {
-    document.querySelector('section#race').style.display = 'none'
-    document.querySelector('section#start').style.display = 'block'
-
+  addTouchEvents('button[name=start]', () => {
     race_state.x = 0
     race_state.y = 0
     race_state.dx = 200
     race_state.dy = 0
-  }
-
-  addTouchEvents('button[name=start]', () => {
-    reset()
+    race_state.running = true
   
     document.querySelector('section#race').style.display = 'block'
     document.querySelector('section#start').style.display = 'none'
   })
 
-  addTouchEvents('button[name=reset]', reset)
+  addTouchEvents('button[name=reset]', () => {
+    race_state.running = false
+    document.querySelector('section#race').style.display = 'none'
+    document.querySelector('section#start').style.display = 'block'
+  })
 
-  reset()
   main()
 }
 
