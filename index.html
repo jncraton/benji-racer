@@ -55,6 +55,7 @@ canvas { width:100%; }
   <img class=opponent src="assets/cars/6.png">
   <img class=opponent src="assets/cars/7.png">
   <img class=opponent src="assets/cars/8.png">
+  <input type="range" name="opponents" min=0 max=10 value=1>
   </div>
 
   <div>
@@ -151,17 +152,13 @@ function addTouchEvents(selector, cb) {
 
 function set_race_active(state) {
   running = state
-  racers = [{
-    x: 0,
-    y: 0,
-    dx: 200,
-    dy: 0,
-  }, {
-    x: 0,
-    y: 0,
-    dx: 250,
-    dy: 0,
-  }]
+  racers = Array.from(Array(+document.querySelector('input[name=opponents]').value + 1), i => {
+    return {
+      x: 0,
+      y: 0,
+      dx: 200,
+      dy: 0,
+  }})
   
   document.querySelector('section#race').style.display = state ? 'block' : 'none'
   document.querySelector('section#start').style.display = state ? 'none' : 'block'
