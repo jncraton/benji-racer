@@ -89,7 +89,6 @@ canvas {
 
 <script>
 var race_state = {}
-var imgs = {}
 
 function get_track_top(x) {
   x = x % race_state.track.width
@@ -107,7 +106,6 @@ async function load_img(filename) {
   return new Promise(resolve => {
     var img = new Image()
     img.onload = function() {
-        imgs[filename] = img
         console.log(filename + ' loaded')
 
         img.canvas = document.createElement('canvas')
