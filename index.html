@@ -84,7 +84,7 @@ canvas {
 <section id="race">
 <div><button name=reset>New Race</button></div>
 <div><span>Coins: <span id=coins></span></span></div>
-<canvas></canvas>
+<canvas width=640 height=480></canvas>
 </section>
 
 <script>
@@ -183,10 +183,7 @@ async function select_race_property(cls, e) {
 }
 
 async function init() {
-  const canvas = document.querySelector('canvas')
-  const ctx = canvas.getContext("2d")
-  canvas.width = 640
-  canvas.height = 480
+  const ctx = document.querySelector('canvas').getContext("2d")
   ctx.scale(2,2)
 
   addTouchEvents('body', () => { 
@@ -203,8 +200,7 @@ async function init() {
 }
 
 function render() {
-  const canvas = document.querySelector('canvas')
-  const ctx = canvas.getContext('2d')
+  const ctx = document.querySelector('canvas').getContext('2d')
   
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
