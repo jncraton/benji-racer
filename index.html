@@ -15,7 +15,7 @@ body {
   font:200 32px sans-serif;
   color:#222;
 }
-button,img {
+button,div img {
   border:2px solid #777;
   border-radius:7px;
   box-shadow:1px 1px 1px #777;
@@ -24,9 +24,9 @@ button,img {
   max-width:80%;
 }
 img.selected { border:2px solid blue; }
-button:hover,button:focus,img:hover,img:focus { box-shadow:2px 2px 2px; }
+button:hover,button:focus,div img:hover,div img:focus { box-shadow:2px 2px 2px; }
 button { background-color:inherit; }
-img { height:64px; } 
+div img { height:64px; } 
 h1 { font-size:48px; }
 canvas { width:100%; }
 #race { display:none; }
@@ -35,7 +35,7 @@ canvas { width:100%; }
 </head>
 <body>
 <section id=start>
-  <h1>Benji Racer</h1>
+  <h1><img src="assets/text/benji-racer.png" alt="Benji Racer"></h1>
   <div>
   <h2>Cars</h2>
   <img class=car src="assets/cars/1.png">
@@ -51,6 +51,7 @@ canvas { width:100%; }
   </div>
 
   <h2>Opponent</h2>
+  <div>
   <img class=opponent src="assets/cars/1.png">
   <img class=opponent src="assets/cars/2.png">
   <img class=opponent src="assets/cars/3.png">
@@ -61,6 +62,7 @@ canvas { width:100%; }
   <img class=opponent src="assets/cars/8.png">
   <img class=opponent src="assets/cars/9.png">
   <img class=opponent src="assets/cars/10.png">
+  </div>
   <div><input type="range" name="opponents" min=0 max=10 value=1></div>
   </div>
 
