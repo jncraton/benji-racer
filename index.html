@@ -193,6 +193,8 @@ async function init() {
 
   addTouchEvents('button[name=start]', set_race_active.bind(null, true))
   addTouchEvents('button[name=reset]', set_race_active.bind(null, false))
+
+  coin = await load_img('assets/items/coin.png')
 }
 
 function render() {
@@ -216,8 +218,7 @@ function render() {
   let next_coin_x = (coins + 1) * coin_interval
   let next_coin_y = get_track_top(next_coin_x) - 32
 
-  ctx.fillStyle = 'orange';
-  ctx.fillRect(next_coin_x, next_coin_y, 24, 24)
+  ctx.drawImage(coin, next_coin_x, next_coin_y)
 
   racers.forEach((racer, i) => {
     ctx.drawImage(i ? opponent : car, racer.x, racer.y)
