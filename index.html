@@ -67,12 +67,10 @@ canvas { width:100%; }
 </section>
 
 <script>
-var race_state = {}
-
 function get_track_top(x) {
-  x = x % race_state.track.width
+  x = x % track.width
 
-  col = race_state.track.canvas.getContext('2d').getImageData(x, 1, 1, 240).data
+  col = track.canvas.getContext('2d').getImageData(x, 1, 1, 240).data
 
   for (var y=0; y<240; y++) {
     if (col[y*4] < 240 && col[y*4 + 1] < 240 && col[y*4 + 2] < 240) return y
@@ -97,25 +95,27 @@ async function load_img(filename) {
 }
 
 function update(dt) {
-  race_state.dx = Math.min(500, race_state.dx)
-  race_state.x = race_state.x + race_state.dx * dt
-  race_state.dx -= 30 * dt
-  race_state.dx = Math.max(0, race_state.dx)
-
-  let car_height = 32
-  let car_width = 64
-  let xfuzz = car_width / 4
-
-  floor = Math.min(get_track_top(race_state.x + xfuzz) - car_height,
-                   get_track_top(race_state.x + car_width - xfuzz) - car_height)
-
-  if (race_state.y > floor) {
-    race_state.dy = 50 * (floor - race_state.y) * dt
-    race_state.y = floor
-  } else {
-    race_state.dy += 200 * dt
-    race_state.y += race_state.dy * dt
-  }
+  racers.forEach( racer => {
+    racer.dx = Math.min(500, racer.dx)
+    racer.x = racer.x + racer.dx * dt
+    racer.dx -= 30 * dt
+    racer.dx = Math.max(0, racer.dx)
+    
+    let car_height = 32
+    let car_width = 64
+    let xfuzz = car_width / 4
+    
+    floor = Math.min(get_track_top(racer.x + xfuzz) - car_height,
+                     get_track_top(racer.x + car_width - xfuzz) - car_height)
+    
+    if (racer.y > floor) {
+      racer.dy = 50 * (floor - racer.y) * dt
+      racer.y = floor
+    } else {
+      racer.dy += 200 * dt
+      racer.y += racer.dy * dt
+    }
+  })
 } 
 
 function main() {
@@ -126,7 +126,7 @@ function main() {
     render()
 
     main.lastTime = now
-    if (race_state.running) { requestAnimationFrame(main) }
+    if (running) { requestAnimationFrame(main) }
 }
 main.lastTime = Date.now()
 
@@ -138,20 +138,22 @@ function addTouchEvents(selector, cb) {
 }
 
 function set_race_active(state) {
-  race_state.running = state
-  race_state.x = 0
-  race_state.y = 0
-  race_state.dx = 200
-  race_state.dy = 0
-
+  running = state
+  racers = [{
+	x: 0,
+	y: 0,
+	dx: 200,
+	dy: 0,
+  }]
+  
   document.querySelector('section#race').style.display = state ? 'block' : 'none'
   document.querySelector('section#start').style.display = state ? 'none' : 'block'
 
-  if (race_state.running) { requestAnimationFrame(main) }
+  if (running) { requestAnimationFrame(main) }
 }
 
 async function select_race_property(cls, e) {
-  race_state[cls] = await load_img(e.target.src)
+  window[cls] = await load_img(e.target.src)
 
   document.querySelectorAll('.' + cls).forEach(e => { e.classList.remove('selected') })
   e.target.classList.add('selected')
@@ -162,7 +164,7 @@ async function init() {
   ctx.scale(2,2)
 
   addTouchEvents('body', () => { 
-    race_state.dx += 100
+    racers[0].dx += 100
   })
 
   addTouchEvents('img.car', select_race_property.bind(null, 'car'))
@@ -178,15 +180,15 @@ function render() {
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
   ctx.save()
-  ctx.translate(50 - race_state.x,0)
+  ctx.translate(50 - racers[0].x,0)
 
-  let screen = Math.floor(race_state.x / race_state.track.width)
+  let screen = Math.floor(racers[0].x / track.width)
 
-  ctx.drawImage(race_state.track, (screen+1)*race_state.track.width, 0)
-  ctx.drawImage(race_state.track, screen*race_state.track.width, 0)
+  ctx.drawImage(track, (screen+1)*track.width, 0)
+  ctx.drawImage(track, screen*track.width, 0)
 
   const coin_interval = 777
-  let coins = Math.floor(race_state.x / coin_interval)
+  let coins = Math.floor(racers[0].x / coin_interval)
 
   document.querySelector('#coins').textContent = coins
 
@@ -196,7 +198,7 @@ function render() {
   ctx.fillStyle = 'orange';
   ctx.fillRect(next_coin_x, next_coin_y, 24, 24)
 
-  ctx.drawImage(race_state.car, race_state.x, race_state.y)
+  ctx.drawImage(car, racers[0].x, racers[0].y)
 
   ctx.restore()
 }
