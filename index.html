@@ -32,46 +32,6 @@ canvas { width:100%; }
 #race { display:none; }
 </style>
 
-</head>
-<body>
-<section id=start>
-  <h1><img src="assets/text/benji-racer.png" alt="Benji Racer"></h1>
-  <div>
-  <h2>Car</h2>
-  <script>
-    Array(11).fill().forEach((_,i) =>  { document.write('<img class=car src="assets/cars/' + (i+1) + '.png">') })
-  </script>
-  </div>
-
-  <h2>Opponent</h2>
-  <div>
-  <script>
-    Array(11).fill().forEach((_,i) =>  { document.write('<img class=opponent src="assets/cars/' + (i+1) + '.png">') })
-  </script>
-  </div>
-  <div><input type="range" name="opponents" min=0 max=10 value=1></div>
-  </div>
-
-  <div>
-  <h2>Track</h2>
-  <script>
-    Array(3).fill().forEach((_,i) =>  { document.write('<img class=track src="assets/tracks/' + (i+1) + '.png">') })
-  </script>
-  </div>
-
-  <div>
-  <h2>Music</h2>
-  <audio controls src="assets/music/yuriy-bespalov---tropical-house.mp3"></audio>
-  </div>
-  
-  <div><button name=start>Start</button></div>
-</section>
-
-<section id="race">
-<div><span>Coins: <span id=coins></span></span><button name=reset>New Race</button></div>
-<canvas width=640 height=480></canvas>
-</section>
-
 <script>
 function get_track_top(x) {
   x = x % track.width
@@ -215,9 +175,48 @@ function render() {
 
   ctx.restore()
 }
-
-init()
-
 </script>
+
+</head>
+<body>
+<section id=start>
+  <h1><img src="assets/text/benji-racer.png" alt="Benji Racer"></h1>
+  <div>
+  <h2>Car</h2>
+  <script>
+    Array(11).fill().forEach((_,i) =>  { document.write('<img class=car src="assets/cars/' + (i+1) + '.png">') })
+  </script>
+  </div>
+
+  <h2>Opponent</h2>
+  <div>
+  <script>
+    Array(11).fill().forEach((_,i) =>  { document.write('<img class=opponent src="assets/cars/' + (i+1) + '.png">') })
+  </script>
+  </div>
+  <div><input type="range" name="opponents" min=0 max=10 value=1></div>
+  </div>
+
+  <div>
+  <h2>Track</h2>
+  <script>
+    Array(3).fill().forEach((_,i) =>  { document.write('<img class=track src="assets/tracks/' + (i+1) + '.png">') })
+  </script>
+  </div>
+
+  <div>
+  <h2>Music</h2>
+  <audio controls src="assets/music/yuriy-bespalov---tropical-house.mp3"></audio>
+  </div>
+  
+  <div><button name=start>Start</button></div>
+</section>
+
+<section id="race">
+<div><span>Coins: <span id=coins></span></span><button name=reset>New Race</button></div>
+<canvas width=640 height=480></canvas>
+</section>
+
+<script>init()</script>
 
 </html>
