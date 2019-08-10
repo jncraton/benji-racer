@@ -175,6 +175,13 @@ function set_race_active(state) {
   document.querySelector('section#start').style.display = state ? 'none' : 'block'
 }
 
+async function select_race_property(cls, e) {
+  race_state[cls] = await load_img(e.target.src)
+
+  document.querySelectorAll('.' + cls).forEach(e => { e.classList.remove('selected') })
+  e.target.classList.add('selected')
+}
+
 async function init() {
   const canvas = document.querySelector('canvas')
   const ctx = canvas.getContext("2d")
@@ -186,19 +193,8 @@ async function init() {
     race_state.dx += 100
   })
 
-  addTouchEvents('img.car', async (e) => {
-    race_state.car = await load_img(e.target.src)
-
-    document.querySelectorAll('.car').forEach(e => { e.classList.remove('selected') })
-    e.target.classList.add('selected')
-  })
-
-  addTouchEvents('img.track', async (e) => {
-    race_state.track = await load_img(e.target.src)
-
-    document.querySelectorAll('.track').forEach(e => { e.classList.remove('selected') })
-    e.target.classList.add('selected')
-  })
+  addTouchEvents('img.car', select_race_property.bind(null, 'car'))
+  addTouchEvents('img.track', select_race_property.bind(null, 'track'))
 
   addTouchEvents('button[name=start]', set_race_active.bind(null, true))
   addTouchEvents('button[name=reset]', set_race_active.bind(null, false))
