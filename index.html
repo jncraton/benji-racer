@@ -191,10 +191,10 @@ function render() {
   document.querySelector('#coins').textContent = coins
 
   let next_coin_x = (coins + 1) * coin_interval
-  let next_coin_y = get_track_top(next_coin_x) - 30
+  let next_coin_y = get_track_top(next_coin_x) - 32
 
   ctx.fillStyle = 'orange';
-  ctx.fillRect(next_coin_x, next_coin_y, 20, 20)
+  ctx.fillRect(next_coin_x, next_coin_y, 24, 24)
 
   ctx.drawImage(race_state.car, race_state.x, race_state.y)
 
