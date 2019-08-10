@@ -175,6 +175,12 @@ function render() {
 
   ctx.restore()
 }
+
+function write_selectable_images(n, cls, path) {
+  Array(n).fill().forEach((_,i) =>  { 
+    document.write('<img class=' + cls + ' src=assets/' + path + '/' + (i+1) + '.png>')
+  })
+}
 </script>
 
 </head>
@@ -183,25 +189,19 @@ function render() {
   <h1><img src="assets/text/benji-racer.png" alt="Benji Racer"></h1>
   <div>
   <h2>Car</h2>
-  <script>
-    Array(11).fill().forEach((_,i) =>  { document.write('<img class=car src="assets/cars/' + (i+1) + '.png">') })
-  </script>
+  <script>write_selectable_images(11, 'car', 'cars')</script>
   </div>
 
   <h2>Opponent</h2>
   <div>
-  <script>
-    Array(11).fill().forEach((_,i) =>  { document.write('<img class=opponent src="assets/cars/' + (i+1) + '.png">') })
-  </script>
+  <script>write_selectable_images(11, 'opponent', 'cars')</script>
   </div>
   <div><input type="range" name="opponents" min=0 max=10 value=1></div>
   </div>
 
   <div>
   <h2>Track</h2>
-  <script>
-    Array(3).fill().forEach((_,i) =>  { document.write('<img class=track src="assets/tracks/' + (i+1) + '.png">') })
-  </script>
+  <script>write_selectable_images(3, 'track', 'tracks')</script>
   </div>
 
   <div>
