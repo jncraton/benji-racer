@@ -106,8 +106,6 @@ async function load_img(filename) {
   return new Promise(resolve => {
     var img = new Image()
     img.onload = function() {
-        console.log(filename + ' loaded')
-
         img.canvas = document.createElement('canvas')
         img.canvas.width = img.width
         img.canvas.height = img.height
