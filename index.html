@@ -85,15 +85,15 @@ async function load_img(filename) {
   return new Promise(resolve => {
     var img = new Image()
     img.onload = function() {
-        img.canvas = document.createElement('canvas')
-        img.canvas.width = img.width
-        img.canvas.height = img.height
-        img.canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height)
+      img.canvas = document.createElement('canvas')
+      img.canvas.width = img.width
+      img.canvas.height = img.height
+      img.canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height)
 
-        resolve(img)
+      resolve(img)
     }
     img.src = filename
-  });
+  })
 }
 
 function update(dt) {
@@ -118,19 +118,19 @@ function update(dt) {
   }
 } 
 
-var lastTime = Date.now();
 function main() {
-    var now = Date.now();
-    var dt = (now - lastTime) / 1000.0;
+    var now = Date.now()
+    var dt = (now - main.lastTime) / 1000.0
 
     if (race_state.running) {
-      update(dt);
-      render();
+      update(dt)
+      render()
     }
 
-    lastTime = now;
-    requestAnimationFrame(main);
+    main.lastTime = now
+    requestAnimationFrame(main)
 }
+main.lastTime = Date.now()
 
 function addTouchEvents(selector, cb) {
   document.querySelectorAll(selector).forEach(el => {
