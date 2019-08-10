@@ -164,6 +164,17 @@ function addTouchEvents(selector, cb) {
   })
 }
 
+function set_race_active(state) {
+  race_state.running = state
+  race_state.x = 0
+  race_state.y = 0
+  race_state.dx = 200
+  race_state.dy = 0
+
+  document.querySelector('section#race').style.display = state ? 'block' : 'none'
+  document.querySelector('section#start').style.display = state ? 'none' : 'block'
+}
+
 async function init() {
   const canvas = document.querySelector('canvas')
   const ctx = canvas.getContext("2d")
@@ -189,22 +200,8 @@ async function init() {
     e.target.classList.add('selected')
   })
 
-  addTouchEvents('button[name=start]', () => {
-    race_state.x = 0
-    race_state.y = 0
-    race_state.dx = 200
-    race_state.dy = 0
-    race_state.running = true
-  
-    document.querySelector('section#race').style.display = 'block'
-    document.querySelector('section#start').style.display = 'none'
-  })
-
-  addTouchEvents('button[name=reset]', () => {
-    race_state.running = false
-    document.querySelector('section#race').style.display = 'none'
-    document.querySelector('section#start').style.display = 'block'
-  })
+  addTouchEvents('button[name=start]', set_race_active.bind(null, true))
+  addTouchEvents('button[name=reset]', set_race_active.bind(null, false))
 
   main()
 }
