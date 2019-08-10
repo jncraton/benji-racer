@@ -106,7 +106,7 @@ async function load_img(filename) {
 }
 
 function update(dt) {
-  racers.forEach( racer => {
+  racers.forEach( (racer, i) => {
     racer.dx = Math.min(500, racer.dx)
     racer.x = racer.x + racer.dx * dt
     racer.dx -= 30 * dt
@@ -127,7 +127,7 @@ function update(dt) {
       racer.y += racer.dy * dt
     }
 
-    if (racer.x < racers[0].x) { racer.dx += 3 }
+    if (racer.x < racers[0].x) { racer.dx += i*2 }
   })
 } 
 
@@ -213,9 +213,9 @@ function render() {
   ctx.fillStyle = 'orange';
   ctx.fillRect(next_coin_x, next_coin_y, 24, 24)
 
-  ctx.drawImage(car, racers[0].x, racers[0].y)
-  
-  ctx.drawImage(opponent, racers[1].x, racers[1].y)
+  racers.forEach((racer, i) => {
+    ctx.drawImage(i ? opponent : car, racer.x, racer.y)
+  })
 
   ctx.restore()
 }
