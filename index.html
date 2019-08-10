@@ -115,18 +115,20 @@ function update(dt) {
       racer.dy += 200 * dt
       racer.y += racer.dy * dt
     }
+
+    if (racer.x < racers[0].x) { racer.dx += 3 }
   })
 } 
 
 function main() {
-    var now = Date.now()
-    var dt = Math.min(.1, (now - main.lastTime) / 1000.0)
+  var now = Date.now()
+  var dt = Math.min(.1, (now - main.lastTime) / 1000.0)
 
-    update(dt)
-    render()
+  update(dt)
+  render()
 
-    main.lastTime = now
-    if (running) { requestAnimationFrame(main) }
+  main.lastTime = now
+  if (running) { requestAnimationFrame(main) }
 }
 main.lastTime = Date.now()
 
@@ -143,6 +145,11 @@ function set_race_active(state) {
     x: 0,
     y: 0,
     dx: 200,
+    dy: 0,
+  }, {
+    x: 0,
+    y: 0,
+    dx: 250,
     dy: 0,
   }]
   
@@ -172,6 +179,8 @@ async function init() {
 
   addTouchEvents('button[name=start]', set_race_active.bind(null, true))
   addTouchEvents('button[name=reset]', set_race_active.bind(null, false))
+
+  opponent = await load_img('assets/cars/1.png')
 }
 
 function render() {
@@ -199,6 +208,8 @@ function render() {
   ctx.fillRect(next_coin_x, next_coin_y, 24, 24)
 
   ctx.drawImage(car, racers[0].x, racers[0].y)
+  
+  ctx.drawImage(opponent, racers[1].x, racers[1].y)
 
   ctx.restore()
 }
