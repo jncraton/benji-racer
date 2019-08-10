@@ -37,42 +37,26 @@ canvas { width:100%; }
 <section id=start>
   <h1><img src="assets/text/benji-racer.png" alt="Benji Racer"></h1>
   <div>
-  <h2>Cars</h2>
-  <img class=car src="assets/cars/1.png">
-  <img class=car src="assets/cars/2.png">
-  <img class=car src="assets/cars/3.png">
-  <img class=car src="assets/cars/4.png">
-  <img class=car src="assets/cars/5.png">
-  <img class=car src="assets/cars/6.png">
-  <img class=car src="assets/cars/7.png">
-  <img class=car src="assets/cars/8.png">
-  <img class=car src="assets/cars/9.png">
-  <img class=car src="assets/cars/10.png">
-  <img class=car src="assets/cars/11.png">
+  <h2>Car</h2>
+  <script>
+    Array(11).fill().forEach((_,i) =>  { document.write('<img class=car src="assets/cars/' + (i+1) + '.png">') })
+  </script>
   </div>
 
   <h2>Opponent</h2>
   <div>
-  <img class=opponent src="assets/cars/1.png">
-  <img class=opponent src="assets/cars/2.png">
-  <img class=opponent src="assets/cars/3.png">
-  <img class=opponent src="assets/cars/4.png">
-  <img class=opponent src="assets/cars/5.png">
-  <img class=opponent src="assets/cars/6.png">
-  <img class=opponent src="assets/cars/7.png">
-  <img class=opponent src="assets/cars/8.png">
-  <img class=opponent src="assets/cars/9.png">
-  <img class=opponent src="assets/cars/10.png">
-  <img class=opponent src="assets/cars/11.png">
+  <script>
+    Array(11).fill().forEach((_,i) =>  { document.write('<img class=opponent src="assets/cars/' + (i+1) + '.png">') })
+  </script>
   </div>
   <div><input type="range" name="opponents" min=0 max=10 value=1></div>
   </div>
 
   <div>
-  <h2>Tracks</h2>
-  <img class=track src="assets/tracks/1.png">
-  <img class=track src="assets/tracks/2.png">
-  <img class=track src="assets/tracks/3.png">
+  <h2>Track</h2>
+  <script>
+    Array(3).fill().forEach((_,i) =>  { document.write('<img class=track src="assets/tracks/' + (i+1) + '.png">') })
+  </script>
   </div>
 
   <div>
