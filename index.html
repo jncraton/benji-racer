@@ -135,7 +135,7 @@ async function init() {
   const ctx = document.querySelector('canvas').getContext("2d")
   ctx.scale(2,2)
 
-  addTouchEvents('body', () => { 
+  addTouchEvents('html', () => { 
     racers[0].dx += 100
   })
 
