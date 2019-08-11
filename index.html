@@ -117,6 +117,11 @@ function set_race_active(state) {
       dx: 200,
       dy: 0,
   }})
+
+  racers[0].car = car
+  racers.forEach(racer => {
+    racer.car = cars[Math.floor(Math.random() * num_cars)]
+  })
   
   document.querySelector('section#race').style.display = state ? 'block' : 'none'
   document.querySelector('section#start').style.display = state ? 'none' : 'block'
@@ -177,7 +182,7 @@ function render() {
   ctx.drawImage(coin, next_coin_x, next_coin_y)
 
   racers.forEach((racer, i) => {
-    ctx.drawImage(i ? cars[i] : car, racer.x, racer.y)
+    ctx.drawImage(racer.car, racer.x, racer.y)
   })
 
   ctx.restore()
