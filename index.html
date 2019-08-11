@@ -67,7 +67,7 @@ function update(dt) {
   racers.forEach( (racer, i) => {
     racer.dx = Math.min(500, racer.dx)
     racer.x = racer.x + racer.dx * dt
-    racer.dx -= 30 * dt
+    racer.dx -= (30+i*3) * dt
     racer.dx = Math.max(0, racer.dx)
     
     let car_height = 32
@@ -85,7 +85,7 @@ function update(dt) {
       racer.y += racer.dy * dt
     }
 
-    if (racer.x < racers[0].x) { racer.dx += i*2 }
+    if (racer.x < racers[0].x) { racer.dx += i*30*dt }
   })
 } 
 
