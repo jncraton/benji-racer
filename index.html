@@ -110,7 +110,7 @@ function addTouchEvents(selector, cb) {
 
 function set_race_active(state) {
   running = state
-  racers = Array.from(Array(+document.querySelector('input[name=opponents]').value + 1), i => {
+  racers = Array.from(Array(+document.querySelector('input[name=racers]').value), i => {
     return {
       x: 0,
       y: 0,
@@ -141,12 +141,16 @@ async function init() {
 
   addTouchEvents('img.car', select_race_property.bind(null, 'car'))
   addTouchEvents('img.track', select_race_property.bind(null, 'track'))
-  addTouchEvents('img.opponent', select_race_property.bind(null, 'opponent'))
 
   addTouchEvents('button[name=start]', set_race_active.bind(null, true))
   addTouchEvents('button[name=reset]', set_race_active.bind(null, false))
 
   coin = await load_img('assets/items/coin.png')
+
+  cars = []
+  for (let i = 1; i <= num_cars; i++) {
+    cars.push(await load_img('assets/cars/' + i + '.png'))
+  }
 }
 
 function render() {
@@ -173,7 +177,7 @@ function render() {
   ctx.drawImage(coin, next_coin_x, next_coin_y)
 
   racers.forEach((racer, i) => {
-    ctx.drawImage(i ? opponent : car, racer.x, racer.y)
+    ctx.drawImage(i ? cars[i] : car, racer.x, racer.y)
   })
 
   ctx.restore()
@@ -195,11 +199,8 @@ function write_selectable_images(n, cls, path) {
   <script>write_selectable_images(num_cars, 'car', 'cars')</script>
   </div>
 
-  <h2>Opponent</h2>
-  <div>
-  <script>write_selectable_images(num_cars, 'opponent', 'cars')</script>
-  </div>
-  <div><input type="range" name="opponents" min=0 max=10 value=1></div>
+  <h2>Racers</h2>
+  <div><input type="number" name="racers" min=1 max=10 value=1></div>
   </div>
 
   <div>
