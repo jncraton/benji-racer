@@ -41,7 +41,7 @@ function get_track_top(x) {
 
   col = track.canvas.getContext('2d').getImageData(x, 1, 1, 240).data
 
-  for (var y=0; y<240; y++) {
+  for (var y=0; y<track.height; y++) {
     if (col[y*4] < 240 && col[y*4 + 1] < 240 && col[y*4 + 2] < 240) return y
   }
 
