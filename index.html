@@ -117,10 +117,10 @@ function set_race_active(state) {
       dy: 0,
   }})
 
-  racers[0].car = car
   racers.forEach(racer => {
     racer.car = cars[Math.floor(Math.random() * num_cars)]
   })
+  racers[0].car = car
   
   document.querySelector('section#race').style.display = state ? 'block' : 'none'
   document.querySelector('section#start').style.display = state ? 'none' : 'block'
