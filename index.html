@@ -109,18 +109,14 @@ function addTouchEvents(selector, cb) {
 
 function set_race_active(state) {
   running = state
-  racers = Array.from(Array(+document.querySelector('input[name=racers]').value), i => {
+  racers = Array.from(Array(+document.querySelector('input[name=racers]').value), (_,i) => {
     return {
       x: 0,
       y: 0,
       dx: 200,
       dy: 0,
+      car: i ? cars[Math.floor(Math.random() * num_cars)] : car
   }})
-
-  racers.forEach(racer => {
-    racer.car = cars[Math.floor(Math.random() * num_cars)]
-  })
-  racers[0].car = car
   
   document.querySelector('section#race').style.display = state ? 'block' : 'none'
   document.querySelector('section#start').style.display = state ? 'none' : 'block'
