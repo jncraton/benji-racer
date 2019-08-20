@@ -32,7 +32,7 @@ input[type=number] { width:4em; }
 </style>
 
 <script>
-const num_cars = 14
+const num_cars = 20
 const num_tracks = 3
 
 function get_track_top(x) {
@@ -177,7 +177,7 @@ function render() {
   ctx.drawImage(coin, next_coin_x, next_coin_y)
 
   racers.forEach((racer, i) => {
-    ctx.drawImage(racer.car, racer.x, racer.y)
+    ctx.drawImage(racer.car, racer.x, racer.y - racers[0].car.height + 32)
   })
 
   ctx.restore()
