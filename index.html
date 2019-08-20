@@ -69,8 +69,8 @@ function update(dt) {
     racer.dx -= (30+i*3) * dt
     racer.dx = Math.max(0, racer.dx)
     
-    let car_height = 32
-    let car_width = 64
+    let car_height = racer.car.height
+    let car_width = racer.car.width
     let xfuzz = car_width / 4
     
     floor = Math.min(get_track_top(racer.x + xfuzz) - car_height,
@@ -177,7 +177,7 @@ function render() {
   ctx.drawImage(coin, next_coin_x, next_coin_y)
 
   racers.forEach((racer, i) => {
-    ctx.drawImage(racer.car, racer.x, racer.y - racers[0].car.height + 32)
+    ctx.drawImage(racer.car, racer.x, racer.y)
   })
 
   ctx.restore()
