@@ -63,6 +63,18 @@ async function load_img(filename) {
   })
 }
 
+function get_rank() {
+  let rank = 1
+
+  racers.forEach( (racer) => {
+    if (racer.x > racers[0].x) {
+      rank += 1
+    }
+  })
+
+  return rank
+}
+
 function update(dt) {
   racers.forEach( (racer, i) => {
     racer.dx = Math.min(500, racer.dx)
@@ -87,6 +99,8 @@ function update(dt) {
 
     if (racer.x < racers[0].x) { racer.dx += i*30*dt }
   })
+
+  document.getElementById('rank').innerHTML = get_rank()
 } 
 
 function main() {
@@ -218,7 +232,7 @@ function write_selectable_images(n, cls, path) {
 </section>
 
 <section id="race">
-<div><span>Coins: <span id=coins></span></span><button name=reset>New Race</button></div>
+<div><span>Position: <span id=rank></span></span> <span>Coins: <span id=coins></span></span><button name=reset>New Race</button></div>
 <canvas width=640 height=480></canvas>
 </section>
 
