@@ -63,18 +63,6 @@ async function load_img(filename) {
   })
 }
 
-function get_rank() {
-  let rank = 1
-
-  racers.forEach( (racer) => {
-    if (racer.x > racers[0].x) {
-      rank += 1
-    }
-  })
-
-  return rank
-}
-
 function update(dt) {
   racers.forEach( (racer, i) => {
     racer.dx = Math.min(500, racer.dx)
@@ -99,8 +87,6 @@ function update(dt) {
 
     if (racer.x < racers[0].x) { racer.dx += i*30*dt }
   })
-
-  document.getElementById('rank').innerHTML = get_rank()
 } 
 
 function main() {
@@ -191,9 +177,14 @@ function render() {
 
   ctx.drawImage(coin, next_coin_x, next_coin_y)
 
+  let rank = 1
+
   racers.forEach((racer, i) => {
     ctx.drawImage(racer.car, racer.x, racer.y)
+    rank += racer.x > racers[0].x
   })
+
+  document.getElementById('rank').innerHTML = rank
 
   ctx.restore()
 }
