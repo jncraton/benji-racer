@@ -177,14 +177,11 @@ function render() {
 
   ctx.drawImage(coin, next_coin_x, next_coin_y)
 
-  let rank = 1
-
   racers.forEach((racer, i) => {
     ctx.drawImage(racer.car, racer.x, racer.y)
-    rank += racer.x > racers[0].x
   })
 
-  document.getElementById('rank').innerHTML = rank
+  document.querySelector('#rank').textContent = racers.filter(r => racers[0].x <= r.x).length
 
   ctx.restore()
 }
