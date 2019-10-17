@@ -147,11 +147,14 @@ async function init() {
   addTouchEvents('button[name=reset]', set_race_active.bind(null, false))
 
   coin = await load_img('assets/items/coin.png')
+  finish = await load_img('assets/items/finish.png')
 
   cars = []
   for (let i = 1; i <= num_cars; i++) {
     cars.push(await load_img('assets/cars/' + i + '.png'))
   }
+
+  race_length = Math.floor(Math.random() * 30) + 3
 }
 
 function render() {
@@ -163,7 +166,7 @@ function render() {
 
   document.querySelector('#coins').textContent = coins
 
-  if (coins >= 3) {
+  if (coins >= race_length) {
     set_race_active(false)
     alert("Congratulations! You finished the race in position " + rank)
   }
@@ -182,7 +185,7 @@ function render() {
 
   let next_coin_x = (coins + 1) * coin_interval
   let next_coin_y = get_track_top(next_coin_x) - 32
-  ctx.drawImage(coin, next_coin_x, next_coin_y)
+  ctx.drawImage(coins < race_length - 1 ? coin : finish, next_coin_x, next_coin_y)
 
   racers.forEach((racer, i) => {
     ctx.drawImage(racer.car, racer.x, racer.y)
